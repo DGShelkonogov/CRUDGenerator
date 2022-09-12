@@ -1,0 +1,15 @@
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\bin\Debug\net6.0\ScripGenerateCRUDSForAvalonia.exe
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\bin\Debug\net6.0\ScripGenerateCRUDSForAvalonia.deps.json
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\bin\Debug\net6.0\ScripGenerateCRUDSForAvalonia.runtimeconfig.json
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\bin\Debug\net6.0\ScripGenerateCRUDSForAvalonia.dll
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\bin\Debug\net6.0\ScripGenerateCRUDSForAvalonia.pdb
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\obj\Debug\net6.0\ScripGenerateCRUDSForAvalonia.csproj.AssemblyReference.cache
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\obj\Debug\net6.0\ScripGenerateCRUDSForAvalonia.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\obj\Debug\net6.0\ScripGenerateCRUDSForAvalonia.AssemblyInfoInputs.cache
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\obj\Debug\net6.0\ScripGenerateCRUDSForAvalonia.AssemblyInfo.cs
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\obj\Debug\net6.0\ScripGenerateCRUDSForAvalonia.csproj.CoreCompileInputs.cache
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\obj\Debug\net6.0\ScripGenerateCRUDSForAvalonia.dll
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\obj\Debug\net6.0\refint\ScripGenerateCRUDSForAvalonia.dll
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\obj\Debug\net6.0\ScripGenerateCRUDSForAvalonia.pdb
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\obj\Debug\net6.0\ScripGenerateCRUDSForAvalonia.genruntimeconfig.cache
+C:\Users\dana\source\repos\ScripGenerateCRUDSForAvalonia\obj\Debug\net6.0\ref\ScripGenerateCRUDSForAvalonia.dll
