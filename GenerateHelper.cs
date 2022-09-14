@@ -21,6 +21,7 @@ namespace ScripGenerateCRUDSForAvalonia
             return name;
         }
 
+
         public static void writeInFile(List<string> list, string path, FileMode mode)
         {
             string str = "";

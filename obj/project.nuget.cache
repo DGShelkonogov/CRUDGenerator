@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fTPdSD4vHbXLERWifzsmiwfC9prCRKrl+1IifvjmSY8V2yxZzbyVdxt87w53MkXPFPC3c7t21A463UFLIlNZlg==",
+  "dgSpecHash": "6mubq3kJfHOoOPbDWKMIl2KtPIq2WCHURopGoqrZzUdp+LPwPdju9qz+CLIicvzMibkFBODva99IPdPBrfiMng==",
   "success": true,
-  "projectFilePath": "C:\\Users\\dana\\source\\repos\\ScripGenerateCRUDSForAvalonia\\ScripGenerateCRUDSForAvalonia.csproj",
+  "projectFilePath": "C:\\Users\\dana\\source\\repos\\CRUDGenerator\\ScripGenerateCRUDSForAvalonia.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

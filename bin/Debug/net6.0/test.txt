@@ -1,13 +1,13 @@
-----------------------ComicViewModel---------------------
+----------------------PositionViewModel---------------------
 public ICommand Add { get; private set; }
 public ICommand Edit { get; private set; }
 public ICommand Remove { get; private set; }
 public ICommand Search { get; private set; }
-private ObservableCollection<Comic> _comics = new ObservableCollection<Comic>();
-public ObservableCollection<Comic> Comics
+private ObservableCollection<Position> _positions = new ObservableCollection<Position>();
+public ObservableCollection<Position> Positions
 {
-get => _comics;
-set => this.RaiseAndSetIfChanged(ref _comics, value);
+get => _positions;
+set => this.RaiseAndSetIfChanged(ref _positions, value);
 }
 private string _searchText;
 public string SearchText
@@ -15,32 +15,32 @@ public string SearchText
 get => _searchText;
 set => this.RaiseAndSetIfChanged(ref _searchText, value);
 }
-private Comic _comicSelected;
-public Comic ComicSelected
+private Position _positionSelected;
+public Position PositionSelected
 {
-get => _comicSelected;
-set => this.RaiseAndSetIfChanged(ref _comicSelected, value);
+get => _positionSelected;
+set => this.RaiseAndSetIfChanged(ref _positionSelected, value);
 }
-private Comic _comicBuffer;
-public Comic ComicBuffer
+private Position _positionBuffer;
+public Position PositionBuffer
 {
-get => _comicBuffer;
-set => this.RaiseAndSetIfChanged(ref _comicBuffer, value);
+get => _positionBuffer;
+set => this.RaiseAndSetIfChanged(ref _positionBuffer, value);
 }
 ApplicationContext db;
-public ComicPageViewModel(ApplicationContext applicationContext)
+public PositionPageViewModel(ApplicationContext applicationContext)
 {
 db = applicationContext;
-Comics = new(db.Comics.ToList());
+Positions = new(db.Positions.ToList());
 Add = ReactiveCommand.Create(() => 
  { 
 
 try
 {
-if (ApplicationContext.validData(ComicBuffer))
+if (ApplicationContext.validData(PositionBuffer))
 {
-Comics.Add(ComicBuffer);
-db.Comics.Add(ComicBuffer);
+Positions.Add(PositionBuffer);
+db.Positions.Add(PositionBuffer);
 db.SaveChanges();
 }
 }
@@ -51,9 +51,9 @@ Edit = ReactiveCommand.Create(() =>
 
 try
 {
-if (ApplicationContext.validData(ComicSelected))
+if (ApplicationContext.validData(PositionSelected))
 {
-db.Comics.Update(ComicSelected);
+db.Positions.Update(PositionSelected);
 db.SaveChanges();
 }
 }
@@ -62,10 +62,10 @@ catch (Exception ex) { }
 Remove = ReactiveCommand.Create(() => 
  { 
 
-if (ComicSelected != null)
+if (PositionSelected != null)
 {
-Comics.Remove(ComicSelected);
-db.Comics.Remove(ComicSelected);
+Positions.Remove(PositionSelected);
+db.Positions.Remove(PositionSelected);
 db.SaveChanges();
 }
 });
@@ -74,11 +74,11 @@ Search = ReactiveCommand.Create(() =>
 
 if (SearchText == null)
 {
-Comics = new(db.Comics
+Positions = new(db.Positions
 .ToList());
 return;
 }
-Comics = new(db.Comics
+Positions = new(db.Positions
 .Where(x => x.___.Contains(SearchText))
 .ToList());
 });

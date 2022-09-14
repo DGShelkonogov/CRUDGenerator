@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+﻿using System.Reflection;
 
 namespace ScripGenerateCRUDSForAvalonia
 {
@@ -56,14 +48,6 @@ namespace ScripGenerateCRUDSForAvalonia
             method.Add($"get => _{typeName}Selected;");
             method.Add($"set => this.RaiseAndSetIfChanged(ref _{typeName}Selected, value);");
             method.Add("}");
-
-            method.Add($"private {TypeName} _{typeName}Buffer;");
-            method.Add($"public {TypeName} {TypeName}Buffer");
-            method.Add("{");
-            method.Add($"get => _{typeName}Buffer;");
-            method.Add($"set => this.RaiseAndSetIfChanged(ref _{typeName}Buffer, value);");
-            method.Add("}");
-
 
 
             //Fields Private Selected
@@ -124,9 +108,6 @@ namespace ScripGenerateCRUDSForAvalonia
             }
 
 
-
-
-
             //Constructor Region
             method.Add("ApplicationContext db;");
 
@@ -135,6 +116,7 @@ namespace ScripGenerateCRUDSForAvalonia
 
             method.Add("db = applicationContext;");
             method.Add($"{TypeName}s = new(db.{TypeName}s.ToList());");
+            method.Add($"{TypeName}Buffer = new {TypeName}();");
             foreach (var info in OtherObject)
             {
                 var type = info.FieldType.Name;
@@ -162,6 +144,7 @@ namespace ScripGenerateCRUDSForAvalonia
             method.Add($"{TypeName}s.Add({TypeName}Buffer);");
             method.Add($"db.{TypeName}s.Add({TypeName}Buffer);");
             method.Add("db.SaveChanges();");
+            method.Add($"{TypeName}Selected = new {TypeName}();");
             for (int i = 0; i < OtherObject.Count + 2; i++)
                 method.Add("}");
             method.Add("catch (Exception ex) { }");
@@ -170,7 +153,7 @@ namespace ScripGenerateCRUDSForAvalonia
 
 
 
-            //Edit Method
+            //Edit Method 
             method.Add("Edit = ReactiveCommand.Create(() => \n { \n");
 
             method.Add("try");
@@ -187,6 +170,7 @@ namespace ScripGenerateCRUDSForAvalonia
 
             method.Add($"db.{TypeName}s.Update({TypeName}Selected);");
             method.Add("db.SaveChanges();");
+            method.Add($"{TypeName}Selected = new {TypeName}();");
             for (int i = 0; i < OtherObject.Count + 2; i++)
                 method.Add("}");
             method.Add("catch (Exception ex) { }");
@@ -200,11 +184,11 @@ namespace ScripGenerateCRUDSForAvalonia
 
             method.Add($"if ({TypeName}Selected != null)");
             method.Add("{");
-            method.Add($"{TypeName}s.Remove({TypeName}Selected);");
             method.Add($"db.{TypeName}s.Remove({TypeName}Selected);");
+            method.Add($"{TypeName}s.Remove({TypeName}Selected);");
             method.Add("db.SaveChanges();");
+            method.Add($"{TypeName}Selected = new {TypeName}();");
             method.Add("}");
-
             method.Add("});");
 
 
@@ -245,23 +229,6 @@ namespace ScripGenerateCRUDSForAvalonia
             method.Add("}");
 
             writeInFile(method, "test.txt", FileMode.Append);
-        }
-
-
-        public static string getName(string typeName)
-        {
-            string name = "";
-
-            for (int i = 0; i < typeName.Length; i++)
-            {
-                if (typeName[i] == '>')
-                    return name;
-
-                if (typeName[i] != '<')
-                    name += typeName[i];
-
-            }
-            return name;
         }
     }
 }
