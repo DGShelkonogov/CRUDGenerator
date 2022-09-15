@@ -11,7 +11,7 @@ namespace ComicShop.Models
 
         [Required]
         [StringLength(13)]
-        public double Sum { get; set; }
+        public int Sum { get; set; }
 
         [Required]
         public Employee Employee { get; set; }

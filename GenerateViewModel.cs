@@ -116,7 +116,7 @@ namespace ScripGenerateCRUDSForAvalonia
 
             method.Add("db = applicationContext;");
             method.Add($"{TypeName}s = new(db.{TypeName}s.ToList());");
-            method.Add($"{TypeName}Buffer = new {TypeName}();");
+            method.Add($"{TypeName}Selected = new {TypeName}();");
             foreach (var info in OtherObject)
             {
                 var type = info.FieldType.Name;
@@ -133,16 +133,29 @@ namespace ScripGenerateCRUDSForAvalonia
             method.Add("try");
             method.Add("{");
 
-            method.Add($"if (ApplicationContext.validData({TypeName}Buffer))");
+            method.Add($"if (ApplicationContext.validData({TypeName}Selected))");
             method.Add("{");
             foreach (var item in OtherObject)
             {
                 var name = getName(item.Name + "");
-                method.Add($"if (ApplicationContext.validData({TypeName}Buffer.{name}))");
+                method.Add($"if (ApplicationContext.validData({TypeName}Selected.{name}))");
                 method.Add("{");
             }
-            method.Add($"{TypeName}s.Add({TypeName}Buffer);");
-            method.Add($"db.{TypeName}s.Add({TypeName}Buffer);");
+
+            method.Add($"var obj = new {TypeName}");
+            method.Add("{");
+
+            foreach(var field in myFieldInfo)
+            {
+                var name = getName(field.Name);
+                if (name.ToLower() == "id") continue;
+                method.Add($"{name} = {TypeName}Selected.{name},");
+            }
+
+            method.Add("};");
+
+            method.Add($"{TypeName}s.Add(obj);");
+            method.Add($"db.{TypeName}s.Add(obj);");
             method.Add("db.SaveChanges();");
             method.Add($"{TypeName}Selected = new {TypeName}();");
             for (int i = 0; i < OtherObject.Count + 2; i++)

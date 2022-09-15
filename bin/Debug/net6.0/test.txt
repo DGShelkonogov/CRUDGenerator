@@ -1,13 +1,13 @@
-----------------------PositionViewModel---------------------
+----------------------StorageViewModel---------------------
 public ICommand Add { get; private set; }
 public ICommand Edit { get; private set; }
 public ICommand Remove { get; private set; }
 public ICommand Search { get; private set; }
-private ObservableCollection<Position> _positions = new ObservableCollection<Position>();
-public ObservableCollection<Position> Positions
+private ObservableCollection<Storage> _storages = new ObservableCollection<Storage>();
+public ObservableCollection<Storage> Storages
 {
-get => _positions;
-set => this.RaiseAndSetIfChanged(ref _positions, value);
+get => _storages;
+set => this.RaiseAndSetIfChanged(ref _storages, value);
 }
 private string _searchText;
 public string SearchText
@@ -15,33 +15,67 @@ public string SearchText
 get => _searchText;
 set => this.RaiseAndSetIfChanged(ref _searchText, value);
 }
-private Position _positionSelected;
-public Position PositionSelected
+private Storage _storageSelected;
+public Storage StorageSelected
 {
-get => _positionSelected;
-set => this.RaiseAndSetIfChanged(ref _positionSelected, value);
+get => _storageSelected;
+set => this.RaiseAndSetIfChanged(ref _storageSelected, value);
 }
-private Position _positionBuffer;
-public Position PositionBuffer
+private Provider _providerSelected;
+public Provider ProviderSelected
 {
-get => _positionBuffer;
-set => this.RaiseAndSetIfChanged(ref _positionBuffer, value);
+get => _providerSelected;
+set => this.RaiseAndSetIfChanged(ref _providerSelected, value);
+}
+private ObservableCollection<Provider> _providersAll = new ObservableCollection<Provider>();
+public ObservableCollection<Provider> ProvidersAll
+{
+get => _providersAll;
+set => this.RaiseAndSetIfChanged(ref _providersAll, value);
+}
+private ComicStorage _comicstorageSelected;
+public ComicStorage ComicStorageSelected
+{
+get => _comicstorageSelected;
+set => this.RaiseAndSetIfChanged(ref _comicstorageSelected, value);
+}
+private ObservableCollection<ComicStorage> _comicstoragesAll = new ObservableCollection<ComicStorage>();
+public ObservableCollection<ComicStorage> ComicStoragesAll
+{
+get => _comicstoragesAll;
+set => this.RaiseAndSetIfChanged(ref _comicstoragesAll, value);
 }
 ApplicationContext db;
-public PositionPageViewModel(ApplicationContext applicationContext)
+public StoragePageViewModel(ApplicationContext applicationContext)
 {
 db = applicationContext;
-Positions = new(db.Positions.ToList());
+Storages = new(db.Storages.ToList());
+StorageSelected = new Storage();
+ProvidersAll = new(db.Providers.ToList());
+ComicStoragesAll = new(db.ComicStorages.ToList());
 Add = ReactiveCommand.Create(() => 
  { 
 
 try
 {
-if (ApplicationContext.validData(PositionBuffer))
+if (ApplicationContext.validData(StorageSelected))
 {
-Positions.Add(PositionBuffer);
-db.Positions.Add(PositionBuffer);
+if (ApplicationContext.validData(StorageSelected.Provider))
+{
+if (ApplicationContext.validData(StorageSelected.Сomics))
+{
+var obj = new Storage
+{
+Title = StorageSelected.Title,
+Provider = StorageSelected.Provider,
+Сomics = StorageSelected.Сomics,
+};
+Storages.Add(obj);
+db.Storages.Add(obj);
 db.SaveChanges();
+StorageSelected = new Storage();
+}
+}
 }
 }
 catch (Exception ex) { }
@@ -51,10 +85,17 @@ Edit = ReactiveCommand.Create(() =>
 
 try
 {
-if (ApplicationContext.validData(PositionSelected))
+if (ApplicationContext.validData(StorageSelected))
 {
-db.Positions.Update(PositionSelected);
+if (ApplicationContext.validData(StorageSelected.Provider))
+{
+if (ApplicationContext.validData(StorageSelected.Сomics))
+{
+db.Storages.Update(StorageSelected);
 db.SaveChanges();
+StorageSelected = new Storage();
+}
+}
 }
 }
 catch (Exception ex) { }
@@ -62,11 +103,12 @@ catch (Exception ex) { }
 Remove = ReactiveCommand.Create(() => 
  { 
 
-if (PositionSelected != null)
+if (StorageSelected != null)
 {
-Positions.Remove(PositionSelected);
-db.Positions.Remove(PositionSelected);
+db.Storages.Remove(StorageSelected);
+Storages.Remove(StorageSelected);
 db.SaveChanges();
+StorageSelected = new Storage();
 }
 });
 Search = ReactiveCommand.Create(() => 
@@ -74,11 +116,15 @@ Search = ReactiveCommand.Create(() =>
 
 if (SearchText == null)
 {
-Positions = new(db.Positions
+Storages = new(db.Storages
+.Include(x => x.Provider)
+.Include(x => x.Сomics)
 .ToList());
 return;
 }
-Positions = new(db.Positions
+Storages = new(db.Storages
+.Include(x => x.Provider)
+.Include(x => x.Сomics)
 .Where(x => x.___.Contains(SearchText))
 .ToList());
 });
